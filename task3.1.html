@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery and Slideshow</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        /* Image Gallery */
+        .gallery {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .gallery img {
+            width: 150px;
+            height: auto;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        .gallery img:hover {
+            transform: scale(1.2);
+        }
+
+        /* Full Image View for Gallery */
+        .full-img {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: auto;
+            z-index: 1000;
+        }
+        .full-img img {
+            width: 100%;
+            height: auto;
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 500;
+        }
+
+        /* Slideshow */
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: auto;
+            margin-top: 30px;
+        }
+        .slide {
+            display: none;
+            width: 100%;
+        }
+        img {
+            width: 100%;
+            height: auto;
+        }
+        .fade {
+            animation: fade 2s;
+        }
+        @keyframes fade {
+            from {opacity: 0.4;}
+            to {opacity: 1;}
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Image Gallery</h2>
+    <div class="gallery">
+        <img src="https://img.freepik.com/premium-photo/mountain-landscape-with-green-forest-mountains-background_900321-24419.jpg" alt="Image 1" onclick="showFullImg(this.src)">
+        <img src="https://images.stockcake.com/public/0/9/9/0991a91b-3caa-4dea-804b-f062b31b6236_large/sunset-city-skyline-stockcake.jpg" alt="Image 2" onclick="showFullImg(this.src)">
+        <img src="https://img.freepik.com/premium-photo/white-flowers-rain_899870-26967.jpg" alt="Image 3" onclick="showFullImg(this.src)">
+    </div>
+
+    <!-- Full Image View -->
+    <div class="overlay" id="overlay" onclick="hideFullImg()"></div>
+    <div class="full-img" id="full-img">
+        <img src="" alt="Enlarged Image" id="large-image">
+    </div>
+
+    <h2>Image Slideshow</h2>
+    <div class="slideshow-container">
+        <img src="https://img.freepik.com/premium-photo/mountain-landscape-with-green-forest-mountains-background_900321-24419.jpg" class="slide fade">
+        <img src="https://images.stockcake.com/public/0/9/9/0991a91b-3caa-4dea-804b-f062b31b6236_large/sunset-city-skyline-stockcake.jpg" class="slide fade">
+        <img src="https://img.freepik.com/premium-photo/white-flowers-rain_899870-26967.jpg" class="slide fade">
+    </div>
+
+    <script>
+        // Gallery Enlarge Image
+        function showFullImg(src) {
+            document.getElementById('large-image').src = src;
+            document.getElementById('full-img').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        function hideFullImg() {
+            document.getElementById('full-img').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        // Slideshow Functionality
+        let slideIndex = 0;
+        showSlides();
+
+        function showSlides() {
+            let slides = document.getElementsByClassName("slide");
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) { slideIndex = 1; }
+            slides[slideIndex-1].style.display = "block";
+            setTimeout(showSlides, 3000); // Change image every 3 seconds
+        }
+    </script>
+
+</body>
+</html>
